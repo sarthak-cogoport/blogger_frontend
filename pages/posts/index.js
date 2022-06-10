@@ -1,14 +1,14 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Form, InputGroup,Button } from 'react-bootstrap';
 import axios from 'axios';
 
-import { getAllPosts, getAuthorBySlug } from '../../lib/api'
 
-export default function Posts({ posts }) {
+export default function Posts() {
   const [search, setSearch] = useState("");
   const [postSearch,setPostSearch] = useState([]);
+  const [posts, setPosts] = useState([]);
   const fetchPosts = (title) => {
     
     try {
@@ -32,6 +32,31 @@ export default function Posts({ posts }) {
   };
 
 
+  const fetchAllPosts = (title) => {
+    
+    try {
+      axios
+        .get(`http://127.0.0.1:3000/post/all`,{
+          headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
+          }
+        })
+        .then((response) => {
+          let result =JSON.parse(JSON.stringify(response));
+          let {data} = result
+          console.log(data)
+          setPosts(data);
+          
+        });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  useEffect(()=>{
+    fetchAllPosts();
+  },[])
+
   return (
     <div className="posts">
       <h1>Posts</h1>
@@ -49,32 +74,32 @@ export default function Posts({ posts }) {
       </InputGroup>
 
       {posts.map(post => {
-        const prettyDate = new Date(post.createdAt).toLocaleString('en-US', {
-          month: 'short',
-          day: '2-digit',
-          year: 'numeric',
-        })
+        // const prettyDate = new Date(post.createdAt).toLocaleString('en-US', {
+        //   month: 'short',
+        //   day: '2-digit',
+        //   year: 'numeric',
+        // })
 
         return (
-          <article key={post.slug}>
+          <article key={post.id}>
             <h2>
-              <Link href={post.permalink}>
+              <Link href={`/posts/${post.id}`}>
                 <a>{post.title}</a>
               </Link>
             </h2>
 
-            <p>{post.excerpt}</p>
+            {/* <p>{post.excerpt}</p> */}
 
             <div>
-              <Image alt={post.author.name} src={post.author.profilePictureUrl} height="40" width="40" />
+              <img alt={post.author.name} src={post.author.img_url} height="40" width="40" />
 
               <div>
                 <strong>{post.author.name}</strong>
-                <time dateTime={post.createdAt}>{prettyDate}</time>
+                {/* <time dateTime={post.createdAt}>{prettyDate}</time> */}
               </div>
             </div>
 
-            <Link href={post.permalink}>
+            <Link href={`/posts/${post.id}`}>
               <a>Read more →</a>
             </Link>
           </article>
@@ -84,13 +109,4 @@ export default function Posts({ posts }) {
   )
 }
 
-export function getStaticProps() {
-  return {
-    props: {
-      posts: getAllPosts().map(post => ({
-        ...post,
-        author: getAuthorBySlug(post.author),
-      })),
-    }
-  }
-}
+

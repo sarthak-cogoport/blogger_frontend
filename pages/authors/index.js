@@ -1,41 +1,60 @@
-import Image from 'next/image'
-import Link from 'next/link'
+import Image from "next/image";
+import Link from "next/link";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
-import { getAllAuthors, getAllPosts } from '../../lib/api'
+export default function Authors() {
+  const [authors, setAuthors] = useState([])
+  const fetchAuthors = () => {
+    var config = {
+      method: "get",
+      url: "http://127.0.0.1:3000/author/all",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
 
-export default function Authors({ authors }) {
+    axios(config)
+      .then(function (response) {
+        console.log(response);
+        let result = JSON.parse(JSON.stringify(response.data));
+
+        setAuthors(result)
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+  useEffect(()=>{
+    fetchAuthors();
+  },[]);
+   
   return (
     <div className="authors">
       <h1>Authors</h1>
 
-      {authors.map(author => (
-        <div key={author.slug}>
+      {authors.map((author) => (
+        <div key={author.id}>
           <h2>
-            <Link href={author.permalink}>
+            <Link href={`authors/${author.id}`}>
               <a>{author.name}</a>
             </Link>
           </h2>
 
-          <Image alt={author.name} src={author.profilePictureUrl} height="80" width="80" />
+          <img
+            alt={author.name}
+            src={author.img_url}
+            height="80"
+            width="80"
+          />
 
-          <p>{author.posts.length} post(s)</p>
+          {/* <p>{author.posts} post(s)</p> */}
 
-          <Link href={author.permalink}>
+          <Link href={`authors/${author.id}`}>
             <a>Go to profile →</a>
           </Link>
         </div>
       ))}
     </div>
-  )
-}
-
-export function getStaticProps() {
-  return {
-    props: {
-      authors: getAllAuthors().map(author => ({
-        ...author,
-        posts: getAllPosts().filter(post => post.author === author.slug),
-      })),
-    }
-  }
+  );
 }

@@ -1,7 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
-import { getAllPosts, getAuthorBySlug, getPostBySlug } from '../../lib/api'
 
 export default function Post({ post }) {
   const prettyDate = new Date(post.createdAt).toLocaleString('en-US', {
