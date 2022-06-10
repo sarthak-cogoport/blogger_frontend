@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { Form, InputGroup,Button } from 'react-bootstrap';
 import axios from 'axios';
+import PostsList from '../PostsList';
 
 
 export default function Posts() {
@@ -58,7 +59,7 @@ export default function Posts() {
   },[])
 
   return (
-    <div className="posts">
+   <div>
       <h1>Posts</h1>
       <InputGroup className="mb-3">
         <Form.Control
@@ -68,43 +69,11 @@ export default function Posts() {
           aria-label="Recipient's username"
           aria-describedby="basic-addon2"
         />
-        <Button variant="outline-primary" id="button-addon2" onClick={()=>fetchPosts(search)}>
+        <Button variant="outline-primary" id="button-addon2" onClick={()=>fetchPosts(search)} disabled={search===""?true:false}>
           Search
         </Button>
       </InputGroup>
-
-      {posts.map(post => {
-        // const prettyDate = new Date(post.createdAt).toLocaleString('en-US', {
-        //   month: 'short',
-        //   day: '2-digit',
-        //   year: 'numeric',
-        // })
-
-        return (
-          <article key={post.id}>
-            <h2>
-              <Link href={`/posts/${post.id}`}>
-                <a>{post.title}</a>
-              </Link>
-            </h2>
-
-            {/* <p>{post.excerpt}</p> */}
-
-            <div>
-              <img alt={post.author.name} src={post.author.img_url} height="40" width="40" />
-
-              <div>
-                <strong>{post.author.name}</strong>
-                {/* <time dateTime={post.createdAt}>{prettyDate}</time> */}
-              </div>
-            </div>
-
-            <Link href={`/posts/${post.id}`}>
-              <a>Read more →</a>
-            </Link>
-          </article>
-        )
-      })}
+      {postSearch && search!==""?<PostsList posts={postSearch} />:<PostsList posts={posts} />}
     </div>
   )
 }
