@@ -1,7 +1,8 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
-import { Form, InputGroup,Button } from 'react-bootstrap'
+import { Form, InputGroup,Button } from 'react-bootstrap';
+import axios from 'axios';
 
 import { getAllPosts, getAuthorBySlug } from '../../lib/api'
 
@@ -42,7 +43,7 @@ export default function Posts({ posts }) {
           aria-label="Recipient's username"
           aria-describedby="basic-addon2"
         />
-        <Button variant="outline-primary" id="button-addon2" onClick={fetchPosts(search)}>
+        <Button variant="outline-primary" id="button-addon2" onClick={()=>fetchPosts(search)}>
           Search
         </Button>
       </InputGroup>
