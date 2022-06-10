@@ -7,6 +7,7 @@ import '../styles/globals.css'
 export default function App({ Component, pageProps }) {
   return (
     <>
+      
       <header>
         <nav>
           <ul>
@@ -28,20 +29,22 @@ export default function App({ Component, pageProps }) {
               </Link>
             </li>
             <li>
-              <Link href="/">
+              <Link href="/become_an_author">
                 <a>Become an Author</a>
               </Link>
             </li>
             <li>
-              <Link href="/">
+              <Link href="/create">
                 <a>Create</a>
               </Link>
             </li>
           </ul>
         </nav>
       </header>
+      
 
       <main>
+       
         <Component {...pageProps} />
       </main>
     </>
