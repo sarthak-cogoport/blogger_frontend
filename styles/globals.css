@@ -10,11 +10,15 @@ a, a:visited {
 }
 
 body {
-  background-color: rgb(249, 250, 251);
-  color: rgba(75, 85, 99);
-  margin: 0;
-  padding: 0;
-}
+     background-color: #d1ccc6;
+     background-image: url("https://www.transparenttextures.com/patterns/concrete-wall-3.png");
+     color: rgba(75, 85, 99); 
+     margin: 0;
+     padding: 0;
+     background-repeat: no-repeat;
+     background-size: cover;
+  
+  }
 
 html {
   box-sizing: border-box;
@@ -37,7 +41,7 @@ h2 {
 }
 
 header {
-  background-color: rgba(243, 244, 246);
+  /* background-color: rgba(243, 244, 246); */
   margin-bottom: 1.5rem;
   padding: 1rem 0;
 }

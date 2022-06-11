@@ -60,8 +60,11 @@ export default function Post() {
           {/* <time dateTime={post.createdAt}>{prettyDate}</time> */}
         </div>
       </div>
-
-      <div dangerouslySetInnerHTML={{ __html: post.content }} />
+      <img src={post.img_url} alt={post.title} height="60%" width="100%" />
+      <hr />
+      <div style={{textAlign:"justify"}}>
+        <p>{post.content}</p>
+        </div>
     </div>
   )
 }

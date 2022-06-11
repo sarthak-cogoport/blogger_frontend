@@ -60,9 +60,10 @@ export default function Author() {
 
   return (
     <div className="author">
-      <h1>{author.name}</h1>
+     
 
       <img alt={author.name} src={author.img_url} height="120" width="120" />
+      <h1>{author.name}</h1>
       <h2>About</h2>
       <p>{author.about}</p>
       <h2>Posts</h2>

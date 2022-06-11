@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import { Alert, Form } from "react-bootstrap";
 export default function CreateAuthor() {
   const [authorDetails, setAuthorDetails] = useState({
     name: "",
@@ -8,7 +9,8 @@ export default function CreateAuthor() {
     about: "",
   });
   // const [isAdded, setIsAdded] = useState(true);
-  const addAuthor = () => {
+  const addAuthor = async (e) => {
+    e.preventDefault();
     try {
       var config = {
         method: "post",
@@ -30,7 +32,7 @@ export default function CreateAuthor() {
       <div>
         <h1>Author Details</h1>
         <div>
-          
+          <Form onSubmit={addAuthor}>
             <label>Name</label>
             <br />
             <input
@@ -45,9 +47,10 @@ export default function CreateAuthor() {
               id="inputsm"
               type="text"
               name="postTitle"
+              required
             />
             <br />
-            <label>Image Url</label>
+            <label>Image Link</label>
             <br />
             <input
               value={authorDetails.authorImg}
@@ -61,6 +64,7 @@ export default function CreateAuthor() {
               id="inputsm"
               type="text"
               name="postTitle"
+              required
             />
             <br />
             <label>E-mail</label>
@@ -77,6 +81,7 @@ export default function CreateAuthor() {
               id="inputsm"
               type="email"
               name="postTitle"
+              required
             />
             <br />
             <label for="postText">About</label>
@@ -94,13 +99,15 @@ export default function CreateAuthor() {
               id="inputlg"
               type="text"
               name="postBody"
+              required
             ></textarea>
             <br />
-            <button class="btn btn-primary" onClick={addAuthor}>
+            <button class="btn btn-primary" type="submit" disabled={!authorDetails.name}>
               Create
             </button>
-          
+            </Form>
         </div>
+        <Alert variant="danger" show={!authorDetails.name}>Author's name is required.</Alert>
       </div>
     </>
   );
