@@ -2,14 +2,19 @@ import Link from "next/link";
 import { Card } from "react-bootstrap";
 
 export default function PostsList({ posts }) {
+  const pdate = (d) =>{
+    const prettyDate = new Date(d).toLocaleString('en-US', {
+      month: 'short',
+      day: '2-digit',
+      year: 'numeric',
+    })
+    return prettyDate;
+  }
   return (
     <div>
       {posts.map((post) => {
-        // const prettyDate = new Date(post.createdAt).toLocaleString('en-US', {
-        //   month: 'short',
-        //   day: '2-digit',
-        //   year: 'numeric',
-        // })
+        
+        
 
         return (
           <Card>
@@ -22,7 +27,7 @@ export default function PostsList({ posts }) {
                 </Link>
               </h2>
 
-              <p>{post.content.substring(0, 50) + "..."}</p>
+              <p>{post.content.substring(0, 60) + "..."}</p>
               {post.author ? (
                 <div>
                   <img
@@ -34,7 +39,7 @@ export default function PostsList({ posts }) {
 
                   <div>
                     <strong>{post.author.name}</strong>
-                    {/* <time dateTime={post.createdAt}>{prettyDate}</time> */}
+                    <time dateTime={post.created_at}>{pdate(post.created_at)}</time>
                   </div>
                 </div>
               ) : null}

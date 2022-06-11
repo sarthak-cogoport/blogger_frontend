@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { useState,useEffect } from 'react'
 import { useRouter } from 'next/router';
 import axios from 'axios';
+import {prettyDate} from 'react';
 
 
 export default function Post() {
@@ -15,6 +16,17 @@ export default function Post() {
   const [author,setAuthor] = useState({});
   const router = useRouter();
   const { slug } = router.query;
+
+  const pdate = (d) =>{
+    const prettyDate = new Date(d).toLocaleString('en-US', {
+      month: 'short',
+      day: '2-digit',
+      year: 'numeric',
+    })
+    return prettyDate;
+  }
+
+
 
   const fetchPost = () => {
     var config = {
@@ -57,7 +69,7 @@ export default function Post() {
             </Link>
           </strong>
 
-          {/* <time dateTime={post.createdAt}>{prettyDate}</time> */}
+          <time dateTime={post.created_at}>{pdate(post.created_at)}</time>
         </div>
       </div>
       <img src={post.img_url} alt={post.title} height="60%" width="100%" />

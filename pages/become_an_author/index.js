@@ -8,6 +8,7 @@ export default function CreateAuthor() {
     img_url: "",
     about: "",
   });
+  const [msg, setMsg] = useState("Author's name is required")
   // const [isAdded, setIsAdded] = useState(true);
   const addAuthor = async (e) => {
     e.preventDefault();
@@ -21,6 +22,15 @@ export default function CreateAuthor() {
         data: authorDetails,
       };
       axios(config).then(function (response) {
+        if(response.status===200){
+          setAuthorDetails({
+            name: "",
+            email: "",
+            img_url: "",
+            about: "",
+          });
+          setMsg("Author Created")
+        }
         console.log(JSON.stringify(response.data));
       });
     } catch (err) {
@@ -107,7 +117,7 @@ export default function CreateAuthor() {
             </button>
             </Form>
         </div>
-        <Alert variant="danger" show={!authorDetails.name}>Author's name is required.</Alert>
+        <Alert variant="primary" show={!authorDetails.name}>{msg}</Alert>
       </div>
     </>
   );

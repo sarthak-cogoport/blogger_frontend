@@ -9,6 +9,7 @@ export default function CreatePosts() {
     author_name: "",
     content: "",
   });
+  const [msg, setMsg] = useState("Author's name is required.")
 
   const addPost = async (e) => {
     e.preventDefault();
@@ -22,6 +23,15 @@ export default function CreatePosts() {
         data: postDetails,
       };
       axios(config).then(function (response) {
+        if(response.status===200){
+          setPostDetails({
+            title: "",
+            img_url: "",
+            author_name: "",
+            content: "",
+          });
+          setMsg("Post Created")
+        }
         console.log(JSON.stringify(response.data));
       });
     } catch (err) {
@@ -112,8 +122,8 @@ export default function CreatePosts() {
             Publish
           </button>
         </Form>
-        <Alert variant="danger" show={!postDetails.author_name}>
-          Author's name is required.
+        <Alert variant="primary" show={!postDetails.author_name}>
+          {msg}
         </Alert>
       </div>
     </div>
